@@ -1,0 +1,38 @@
+class Admin::DiscountsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :require_admin
+
+  def index
+    @discounts = Discount.includes(discount_groups: :products).all
+  end
+  
+  def new
+    @discount = Discount.new
+    @discount.discount_groups.build
+  end
+
+  def create
+    @discount = Discount.new(discount_params)
+    if @discount.save
+      redirect_to admin_discounts_path, notice: 'Discount created successfully with groups and products.'
+    else
+      render :new
+    end
+  end
+
+  private
+
+  def discount_params
+    params.require(:discount).permit(
+      :rate, 
+      :discount_type, 
+      discount_groups_attributes: [
+        :id, :_destroy, product_ids: []
+      ]
+    )
+  end
+
+  def require_admin
+    redirect_to root_path unless current_user.is_admin?
+  end
+end

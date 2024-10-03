@@ -1,0 +1,28 @@
+<h1>Product List</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= image_tag product.image.url, alt: product.name, width: 200, height: 200 if product.image.present? %></td>
+        <td><%= product.name %></td>
+        <td><%= number_to_currency(product.price) %></td>
+        <td>
+          <%= form_with url:add_to_cart_product_path(product), method: :post, local: true do %>
+            <%= submit_tag 'Add to Cart' %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'View Cart', cart_path(current_cart) %>

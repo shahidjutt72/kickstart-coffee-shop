@@ -1,0 +1,25 @@
+<%= form_with(model: [:admin, @discount], local: true) do |form| %>
+  <div class="field">
+    <%= form.label :rate %>
+    <%= form.number_field :rate %>
+  </div>
+
+  <div class="field">
+    <%= form.label :discount_type %>
+    <%= form.select :discount_type, Discount.discount_types.keys.map { |key| [key.humanize, key] } %>
+  </div>
+
+  <%= form.fields_for :discount_groups do |group_form| %>
+    <div class="nested-fields">
+      <%= group_form.label 'Products for Discount Group' %>
+      <%= group_form.collection_check_boxes :product_ids, Product.all, :id, :name %>
+
+      <%= group_form.check_box :_destroy %>
+      <%= group_form.label :_destroy, "Remove Group" %>
+    </div>
+  <% end %>
+
+  <%= link_to_add_association 'Add Discount Group', form, :discount_groups %>
+
+  <%= form.submit 'Create Discount' %>
+<% end %>

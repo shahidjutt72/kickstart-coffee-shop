@@ -1,0 +1,27 @@
+<h1>Admin - Tax Rates</h1>
+
+<%= link_to 'New Tax Rate', new_admin_tax_rate_path if current_user.is_admin? %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Rate</th>
+      <th>Type</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tax_rates.each do |tax_rate| %>
+      <tr>
+        <td><%= tax_rate.product.name %></td>
+        <td><%= tax_rate.rate %></td>
+        <td><%= tax_rate.tax_type %></td>
+        <td>
+          <%= link_to 'Edit', edit_admin_tax_rate_path(tax_rate) if current_user.is_admin? %> |
+          <%= link_to 'Delete', admin_tax_rate_path(tax_rate), method: :delete, data: { confirm: 'Are you sure?' } if current_user.is_admin? %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

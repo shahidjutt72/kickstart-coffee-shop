@@ -1,0 +1,39 @@
+<h1>Discounts List</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rate</th>
+      <th>Discount Type</th>
+      <th>Discount Groups</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @discounts.each do |discount| %>
+      <tr>
+        <td><%= discount.rate %></td>
+        <td><%= discount.discount_type.humanize %></td>
+        <td>
+          <ul>
+            <% discount.discount_groups.each do |group| %>
+              <li>
+                Group ID: <%= group.id %>
+                <ul>
+                  <% group.products.each do |product| %>
+                    <li><%= product.name %></li>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+          </ul>
+        </td>
+        <td>
+          <%= link_to 'Delete', admin_discount_path(discount), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New Discount', new_admin_discount_path, class: 'btn btn-primary' %>
