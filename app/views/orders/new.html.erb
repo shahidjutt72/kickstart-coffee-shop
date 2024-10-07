@@ -1,0 +1,44 @@
+<h2>Review Your Order</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Subtotal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @order.order_items.each do |item| %>
+      <tr>
+        <td><%= item.product.name %></td>
+        <td><%= item.quantity %></td>
+        <td><%= number_to_currency(item.product.price) %></td>
+        <td><%= number_to_currency(item.subtotal) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p>Order Subtotal: <%= number_to_currency(@order.subtotal) %></p>
+<p>Total Tax: <%= number_to_currency(@order.total_tax) %></p>
+<p>Total After Tax: <%= number_to_currency(@order.total_with_tax) %></p>
+<p>Total Discount: <%= number_to_currency(@order.total_discount) %></p>
+<p>Total: <%= number_to_currency(@order.total) %></p>
+
+<%= form_for @order do |f| %>
+
+  <div class="form-group">
+    <%= f.label :address %>
+    <%= f.text_field :address, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :payment_method %>
+    <%= f.select :payment_method, [['Cash On Delivery', 'cash_on_delivery'], ['Credit Card', 'credit_card']], {}, class: 'form-control' %>
+  </div>
+
+  <%= f.submit "Place Order", class: "btn btn-primary" %>
+<% end %>
+

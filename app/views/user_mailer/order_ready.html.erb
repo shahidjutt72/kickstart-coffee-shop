@@ -1,0 +1,31 @@
+<h1>Your Order is Ready!</h1>
+<p>Dear <%= @user.email %>,</p>
+<p>Your order <%= @order.id %> is ready for pickup. Please collect it at your convenience.</p>
+
+<p>Here are the details:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Subtotal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @order_items.each do |order_item| %>
+      <tr>
+        <td><%= order_item.product.name %></td>
+        <td><%= order_item.quantity %></td>
+        <td><%= number_to_currency(order_item.subtotal) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p><strong>SubTotal: </strong> <%= number_to_currency(@order.subtotal) %></p>
+<p><strong>Total Tax: </strong> <%= number_to_currency(@order.total_tax) %></p>
+<p><strong>Total Discount: </strong> <%= number_to_currency(@order.total_discount) %></p>
+<p><strong>Total: </strong> <%= number_to_currency(@order.total) %></p>
+
+<p>Thank you for choosing our coffee shop!</p>

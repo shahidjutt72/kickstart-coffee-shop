@@ -15,9 +15,11 @@ Rails.application.routes.draw do
   	get 'users/sign_out', :to => "devise/sessions#destroy"
   end
 
+  resources :orders
+
   namespace :admin do
   	root to: 'tax_rates#index'
     resources :tax_rates
-  	resources :discounts, only: [:index, :new, :create, :edit, :update]
+  	resources :discounts
   end
 end

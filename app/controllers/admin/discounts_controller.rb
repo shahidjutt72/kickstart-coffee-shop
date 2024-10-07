@@ -3,12 +3,12 @@ class Admin::DiscountsController < ApplicationController
   before_action :require_admin
 
   def index
-    @discounts = Discount.includes(discount_groups: :products).all
+    @discounts = Discount.includes(discount_group: :products).all
   end
   
   def new
     @discount = Discount.new
-    @discount.discount_groups.build
+    @discount.build_discount_group
   end
 
   def create
@@ -20,13 +20,26 @@ class Admin::DiscountsController < ApplicationController
     end
   end
 
+  def edit
+    @discount = Discount.find(params[:id])
+  end
+
+  def update
+    @discount = Discount.find(params[:id])
+    if @discount.update(discount_params)
+      redirect_to admin_discounts_path, notice: 'Discount updated successfully.'
+    else
+      render :edit
+    end
+  end
+
   private
 
   def discount_params
     params.require(:discount).permit(
       :rate, 
       :discount_type, 
-      discount_groups_attributes: [
+      discount_group_attributes: [
         :id, :_destroy, product_ids: []
       ]
     )

@@ -12,17 +12,18 @@
 
   <body>
     <nav class="pull-right">
-      <%= link_to 'Home', root_path %>
-      <%= link_to 'Products', dashboard_index_path %>
+      <%= link_to 'Home', root_path %> | 
+      <%= link_to 'Products', dashboard_index_path %> | 
       <% if user_signed_in? %>
-        <%= link_to 'Cart', cart_path(current_cart) %>
-        <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
+        <%= link_to 'Cart', cart_path(current_cart) %> | 
+        <%= link_to 'My Orders', dashboard_index_path %> | 
+        <%= link_to 'Logout', destroy_user_session_path, method: :delete %> | 
       <% else %>
-        <%= link_to 'Login', new_user_session_path %>
+        <%= link_to 'Login', new_user_session_path %> | 
       <% end %>
       <% if current_user&.is_admin? %>
-        <%= link_to 'Manage Tax Rates', admin_tax_rates_path %>
-        <%= link_to 'Manage Discounts', admin_discounts_path %>
+        <%= link_to 'Manage Tax Rates', admin_tax_rates_path %> | 
+        <%= link_to 'Manage Discounts', admin_discounts_path %> | 
       <% end %>
 
     </nav>

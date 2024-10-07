@@ -1,4 +1,4 @@
-<h1>Your Cart</h1>
+<h2>Your Cart</h2>
 
 <% if @cart_items.any? %>
   <table>
@@ -7,22 +7,25 @@
         <th>Product</th>
         <th>Quantity</th>
         <th>Price</th>
-        <th>Total</th>
+        <th>Subtotal</th>
       </tr>
     </thead>
     <tbody>
-      <% @cart_items.each do |cart_item| %>
+      <% @cart.cart_items.each do |item| %>
         <tr>
-          <td><%= cart_item.product.name %></td>
-          <td><%= cart_item.quantity %></td>
-          <td><%= cart_item.product.price %></td>
-          <td><%= cart_item.quantity * cart_item.product.price %></td>
+          <td><%= item.product.name %></td>
+          <td><%= item.quantity %></td>
+          <td><%= number_to_currency(item.product.price) %></td>
+          <td><%= number_to_currency(item.subtotal) %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 
-  <h3>Total: <%= @cart_items.sum { |item| item.quantity * item.product.price } %></h3>
+  <p>Total: <%= number_to_currency(@cart.cart_items.sum { |item| item.product.price * item.quantity }) %></p>
+
+  <%= link_to 'Continue Shopping', dashboard_index_path, class: 'btn btn-primary' %> | 
+  <%= link_to 'Checkout', new_order_path, class: 'btn btn-success' if @cart.cart_items.any? %>
 <% else %>
-  <p>Your cart is empty.</p>
-<% end %>
+  <h2>Your Cart is empty</h2>
+<% end  %>

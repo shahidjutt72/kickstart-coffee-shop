@@ -1,0 +1,23 @@
+<%= form_with model: [:admin, @discount], local: true do |form| %>
+  <div class="field">
+    <%= form.label :rate %>
+    <%= form.text_field :rate %>
+  </div>
+
+  <div class="field">
+    <%= form.label :discount_type %>
+    <%= form.select :discount_type, Discount.discount_types.keys.map { |w| [w.humanize, w] } %>
+  </div>
+
+  <h3>Discount Group</h3>
+  <div id="discount-groups">
+    <%= form.fields_for :discount_group do |group_form| %>
+      <%= render 'admin/discounts/discount_group_fields', f: group_form %>
+    <% end %>
+
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

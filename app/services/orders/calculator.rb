@@ -18,7 +18,7 @@ class Orders::Calculator
     total = subtotal - discount + total_tax
 
     # Update order with calculated values
-    order.update(subtotal: subtotal, total: total, total_tax: total_tax, total_discount: discount)
+    order.attributes = { subtotal: subtotal, total: total, total_tax: total_tax, total_discount: discount }
   end
 
   private
